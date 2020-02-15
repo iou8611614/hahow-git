@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>This is an Blog</h1>
     <p>{{ message }}</p>
   </div>
 </template>
@@ -14,11 +14,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      message: "Hello World"
+      message: "Welecome to my space"
     };
   },
   beforeRouteEnter(to, from, next) {
-    axios.get("http://localhost:3000/about").then(res => {
+    axios.get("http://localhost:3000/blog").then(res => {
       console.log(res);
       next();
     });

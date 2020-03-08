@@ -6,10 +6,7 @@
 </template>
 
 <script>
-// import Vue from "vue";
-import axios from "axios";
-// import VueAxios from "vue-axios";
-// Vue.use(Vue.Axios, axios);
+// import axios from "axios";
 
 export default {
   data() {
@@ -17,12 +14,12 @@ export default {
       message: "Welecome to my space"
     };
   },
-  beforeRouteEnter(to, from, next) {
-    axios.get("http://localhost:3000/blog").then(res => {
-      console.log(res);
-      next();
-    });
-  }
+  // beforeRouteEnter(to, from, next) {
+  //   axios.get("http://127.0.0.1:7000/blog").then(res => {
+  //     console.log(res);
+  //     next();
+  //   });
+  // }
 };
 </script>
 

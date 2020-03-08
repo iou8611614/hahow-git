@@ -11,9 +11,6 @@
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
     "multer": "^1.4.2",
-    "pug-cli": "^1.0.0-alpha6",
-    "pug-filters": "^3.1.1",
-    "pug-loader": "^2.4.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"
@@ -37,13 +34,10 @@
     "popper.js": "^1.16.0",
     "portal-vue": "^2.1.6",
     "prettier": "^1.19.1",
-    "pug": "file:node_modules/pug",
-    "pug-plain-loader": "file:node_modules/pug-plain-loader",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "^0.6.0",
-    "vue-cli-plugin-pug": "^1.0.7",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

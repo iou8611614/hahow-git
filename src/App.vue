@@ -1,22 +1,45 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link :to="{ name: 'About' }">About</router-link> |
-      <router-link :to="{ name: 'Blog' }">Blog</router-link> |
-      <router-link :to="{ name: 'Login' }">Login</router-link>
-    </div>
-    <router-view />
+    <NavbarRouter></NavbarRouter>
+    <router-view></router-view>
   </div>
 </template>
 
-<style lang="scss">
+<script>
+  import NavbarRouter from './components/NavbarRouter.vue'
+  export default {
+    methods: {
+      test(){
+        console.log('navbar button click!')
+      }
+    },
+    components: {
+      NavbarRouter,
+    }
+  }
+</script>
+
+<style>
+html,
+body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background-image: url("../public/bg-image/AdobeStock_95876794.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  width: 100%;
+  height: 100%;
 }
 
 #nav {

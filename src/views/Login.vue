@@ -67,7 +67,7 @@ export default {
           .then(res => {
             _console.log('Msg from server: ',res);
             if (res.status) {
-              self.$router.push({ name: "Home" });
+              self.$router.push({ name: "Blog" });
             }
           })
           .catch(err => {

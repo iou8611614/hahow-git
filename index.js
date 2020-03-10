@@ -4,9 +4,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require("multer");
+const history = require("connect-history-api-fallback");
 const app = express();
 
 app.use(cors());
+// history middleware important!
+// for Single Page Application
+app.use(history())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, "./dist")));
 

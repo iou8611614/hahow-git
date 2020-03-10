@@ -8,11 +8,6 @@
 <script>
   import NavbarRouter from './components/NavbarRouter.vue'
   export default {
-    methods: {
-      test(){
-        console.log('navbar button click!')
-      }
-    },
     components: {
       NavbarRouter,
     }

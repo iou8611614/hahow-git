@@ -5,11 +5,19 @@
 </template>
 
 <script>
+import axios from "axios";
+const _console = window.console;
 export default {
   mounted() {
     setTimeout(()=>{
       this.$router.push({name:'Home'})
     },1000)
+  },
+  beforeRouteEnter(to, from, next) {
+    axios.get("http://127.0.0.1:7000/Logout").then(res => {
+      _console.log('Msg from server: ',res);
+      next();
+    });
   }
 }
 </script>

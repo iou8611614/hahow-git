@@ -13,6 +13,9 @@ const routes = [
   {
     path: "/Blog",
     name: "Blog",
+    meta: {
+      requireAuth: true
+    },
     component: () => import("../views/Blog.vue")
   },
   {
@@ -42,9 +45,15 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  // model: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const requireAuth = to.matched.some(record => record.meta.requireAuth);
+  console.log("Router before each ==> ", requireAuth);
+  next();
 });
 
 export default router;

@@ -23,6 +23,7 @@
 <script>
 import axios from "axios";
 import FormItem from "@/components/FormItem.vue";
+const _console = window.console;
 export default {
   data() {
     return {
@@ -64,7 +65,7 @@ export default {
         axios
           .get("http://127.0.0.1:7000/Login")
           .then(res => {
-            console.log(res.status);
+            _console.log('Msg from server: ',res);
             if (res.status) {
               self.$router.push({ name: "Home" });
             }

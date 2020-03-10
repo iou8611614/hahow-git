@@ -42,20 +42,22 @@ app.listen(_PORT, _IP, function() {
   console.log("server start IP: " + _IP + " , PORT: " + _PORT);
 });
 
-// app.get("/Register", function(req, res) {
-//   res.sendFile(home_page);
-// });
+app.get("/Register", function(req, res) {
+  res.send('got Register Request')
+  console.log("Request Register")
+});
 
-// app.get("/Login", function(req, res) {
-//   res.sendFile(home_page);
-// });
+app.get("/Login", function(req, res) {
+  res.send('got Login Request')
+  console.log("Request Login")
+});
 
-// app.get("/about", function(req, res) {
-//   console.log("About");
-//   res.send("About");
-// });
+app.get("/Logout", function(req, res) {
+  res.send('got Logout Request')
+  console.log("Request Logout")
+});
 
-// app.get("/blog", function(req, res) {
-//   console.log("Blog");
-//   res.send("Blog");
-// });
+app.get("/Blog", function(req, res) {
+  res.send('Got Blog Request')
+  console.log("Request Blog")
+});

@@ -40,8 +40,13 @@ export default {
     nav li:active {
         cursor: pointer;
     }
-    nav li.nav-item {
-        padding: .5rem;
+    nav .nav-link{
+      padding: 0!important;
+    }
+    nav .nav-link a{
+      display: inline-block;
+      padding: 1rem;
+      width: 10vmax;
     }
     nav li.nav-item:hover {
         background-color: rgba(233, 229, 229, 0.1) !important;
@@ -57,4 +62,4 @@ export default {
     nav li.nav-item:hover a.route-style {
         color: whitesmoke;
     }
-</style>
+</style>  

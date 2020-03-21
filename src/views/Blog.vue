@@ -16,7 +16,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     // modify to => axios.get(/Blog"")
-    axios.get("http://127.0.0.1:7000/Blog").then(res => {
+    axios.get("http://127.0.0.1:7000/Blog/:user").then(res => {
       _console.log('Msg from server: ',res);
       next();
     });

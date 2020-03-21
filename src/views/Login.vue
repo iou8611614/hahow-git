@@ -54,6 +54,9 @@ export default {
   methods: {
     loginHandler() {
       let self = this;
+      let username = this.$refs.inputComponent[0].$refs.inputElement.value;
+      let password = this.$refs.inputComponent[1].$refs.inputElement.value;
+      // define isInputEmpty method.
       const isInputEmpty = inputComponent => {
         return inputComponent.$refs.inputElement.value.trim() !== "";
       };
@@ -61,13 +64,32 @@ export default {
       if (!this.$refs.inputComponent.every(isInputEmpty)) {
         alert("請輸入帳號密碼");
       } else {
-        // if login direct to user page
+        _console.log(username, password)
         axios
-          .get("http://127.0.0.1:7000/Login")
+          .post("http://127.0.0.1:7000/Blog/Login",{
+            username,
+            password
+          })
           .then(res => {
-            _console.log('Msg from server: ',res);
+            // 1. response token from server
+            // 2. save token in localStorage/sessionStorage/cookie?
+            // 3. if has token then redirect to /Blog/Profile/:userID
+            // 4. if no token that mean username/password has error then show error message to user.
+           
+          //  Token test
+            _console.log('This is token: ',res);
+            if(res.data.token) _console.log("your got token!")
+            else _console.log("you need token...")
+          //  Token test
+            
             if (res.status) {
-              self.$router.push({ name: "Blog" });
+              // Fake User 'Jason'
+              //modify redirect to /Blog/Profile/:userID
+              // load user info from server , then save in Vuex. Maybe???
+              self.$router.push({ name: "Profile",params:{userID:'Jason'} })
+                          .catch(err=>{
+                            if(err) _console.log(err)
+                          });
             }
           })
           .catch(err => {
@@ -77,12 +99,14 @@ export default {
     },
     registerHandler() {
       this.$router.push({name:'Register'})
-      // alert('導向註冊頁面')
+                  .catch(err=>{
+                      if(err) _console.log(err)
+                  });
     }
   },
   components: {
     FormItem
-  }
+  },
 };
 </script>
 

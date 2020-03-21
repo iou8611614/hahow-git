@@ -1,17 +1,28 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <Welcome />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import Welcome from "@/components/Welcome.vue";
-
+const _console = window.console;
 export default {
-  components: {
-    Welcome
+  mounted(){
+    this.init();
+  },
+  methods:{
+    init(){
+      this.$router.push({name:'Welcome'})
+                  .catch(err=>{
+                      if(err) _console.log(err)
+                  });;
+    }
   }
 };
 </script>
+
+<style scoped>
+  .home {
+    height: 100vmin;
+  }
+</style>

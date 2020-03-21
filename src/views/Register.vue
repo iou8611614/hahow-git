@@ -90,11 +90,17 @@ export default {
       } else {
         // if login direct to user page
         axios
-          .get("http://127.0.0.1:7000/Register")
+          .get("http://127.0.0.1:7000/Blog/Register")
           .then(res => {
             _console.log('Msg from server: ',res);
             if (res.status) {
-              self.$router.push({ name: "Home" });
+              // Fake User 'Jason'
+              //modify redirect to /Blog/Profile/:userID
+              // load user info from server , then save in Vuex. Maybe???
+              self.$router.push({ name: "Profile",params:{userID:'Jason'} })
+                          .catch(err=>{
+                            if(err) _console.log(err)
+                          });
             }
           })
           .catch(err => {

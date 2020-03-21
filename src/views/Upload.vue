@@ -30,7 +30,7 @@ export default {
       let formData = new FormData();
       formData.append("file", this.uploadFile);
       axios
-        .post("http://127.0.0.1:7000/upload", formData, {
+        .post("http://127.0.0.1:7000/Blog/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }

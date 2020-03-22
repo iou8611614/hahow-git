@@ -4,11 +4,13 @@
       class="container-sm d-flex flex-column align-items-center rounded py-5 myform"
     >
       <i class="material-icons mb-3 custom-icon" style="font-size:60px">send</i>
+      <span class="matchMsg" v-show="isMatch">Please double check password !</span>
       <FormItem
         ref="inputComponent"
         v-for="item in itemInfo"
         :setItem="item"
         :key="item.name"
+        @judgeMatch="matchHandler"
       />
       <button type="button" class="btn btn-primary" @click="registerHandler">
         Submit
@@ -24,6 +26,7 @@ const _console = window.console;
 export default {
   data() {
     return {
+      isMatch: false,
       itemInfo: [
         {
           msg: "User Name",
@@ -79,6 +82,15 @@ export default {
     };
   },
   methods: {
+    matchHandler(){
+      let password = this.$refs.inputComponent[3].$refs.inputElement.value;
+      let dbc_password = this.$refs.inputComponent[4].$refs.inputElement.value;
+      if(password !== dbc_password){
+        this.isMatch = true;
+      }else{
+        this.isMatch = false;
+      }
+    },
     registerHandler() {
       let self = this;
       let username = this.$refs.inputComponent[0].$refs.inputElement.value;
@@ -90,12 +102,10 @@ export default {
       const isInputEmpty = inputComponent => {
         return inputComponent.$refs.inputElement.value.trim() !== "";
       };
-
-      if (!this.$refs.inputComponent.every(isInputEmpty)) {
-        alert("請填寫完整資料");
-      } else {
+  
+      if (this.$refs.inputComponent.every(isInputEmpty) && !this.isMatch) {
         axios
-          .post("http://127.0.0.1:7000/Blog/Login",{
+          .post("http://127.0.0.1:7000/Blog/Register",{
             username,
             email,
             birthday,
@@ -103,9 +113,9 @@ export default {
             dbc_password
           })
           .then(res => {
-            // 1. response token from server
-            // 2. save token in localStorage/sessionStorage/cookie?
-            // 3. if has token then redirect to /Blog/Profile/:userID
+            // 1. response token from server.
+            // 2. save token in localStorage.
+            // 3. if has token then redirect to /Blog/Profile/:userID.
             // 4. if no token that mean username/password has error then show error message to user.
            
           //  Token test
@@ -116,7 +126,7 @@ export default {
             
             if (res.status) {
               // Fake User 'Jason'
-              //modify redirect to /Blog/Profile/:userID
+              // modify redirect to /Blog/Profile/:userID
               // load user info from server , then save in Vuex. Maybe???
               self.$router.push({ name: "Profile",params:{userID:'Jason'} })
                           .catch(err=>{
@@ -127,26 +137,9 @@ export default {
           .catch(err => {
             console.log(err);
           });
-
-
-        // if login direct to user page
-        // axios
-        //   .get("http://127.0.0.1:7000/Blog/Register")
-        //   .then(res => {
-        //     _console.log('Msg from server: ',res);
-        //     if (res.status) {
-        //       // Fake User 'Jason'
-        //       //modify redirect to /Blog/Profile/:userID
-        //       // load user info from server , then save in Vuex. Maybe???
-        //       self.$router.push({ name: "Profile",params:{userID:'Jason'} })
-        //                   .catch(err=>{
-        //                     if(err) _console.log(err)
-        //                   });
-        //     }
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
+      } else {
+        alert("請填寫完整資料");
+        
       }
     }
   },
@@ -157,6 +150,9 @@ export default {
 </script>
 
 <style scoped>
+.matchMsg {
+  color: red;
+}
 .login-box {
   max-width: 500px;
 }

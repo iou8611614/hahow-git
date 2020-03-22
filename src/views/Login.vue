@@ -71,9 +71,9 @@ export default {
             password
           })
           .then(res => {
-            // 1. response token from server
-            // 2. save token in localStorage/sessionStorage/cookie?
-            // 3. if has token then redirect to /Blog/Profile/:userID
+            // 1. response token from server.
+            // 2. save token in localStorage.
+            // 3. if has token then redirect to /Blog/Profile/:userID.
             // 4. if no token that mean username/password has error then show error message to user.
            
           //  Token test
@@ -82,7 +82,7 @@ export default {
             else _console.log("you need token...")
           //  Token test
             
-            if (res.status) {
+            if(res.status) {
               // Fake User 'Jason'
               //modify redirect to /Blog/Profile/:userID
               // load user info from server , then save in Vuex. Maybe???

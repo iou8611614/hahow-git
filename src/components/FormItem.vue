@@ -4,7 +4,7 @@
       <div class="input-group">
         <i :class="setItem.icon._class" class="google-icon mx-1 my-2" style="font-size:40px">{{setItem.icon._text}}</i>
         <input
-          @blur="checkColumnEmpty"
+          @blur="checkColumnStatus"
           ref="inputElement"
           :type="setItem.type"
           class="form-control mx-1 my-2"
@@ -13,7 +13,7 @@
         />
       </div>
     </transition>
-    <span v-show="isEmpty" class="empty_prompt">Empty Column</span>
+    <span v-show="isEmpty" class="empty_prompt">Empty Column!</span>
   </div>
 </template>
 
@@ -23,15 +23,23 @@ export default {
   props: ["setItem"],
   data() {
     return {
-      isEmpty: false
+      isEmpty: false,
     };
   },
+
   methods: {
-    checkColumnEmpty() {
+    checkColumnStatus() {
       if (this.$refs.inputElement.value.trim()) {
         this.isEmpty = false;
       } else {
         this.isEmpty = true;
+      }
+
+      if(this.$refs.inputElement.id === 'userPassword'){
+        this.$emit('judgeMatch');
+      }
+      if(this.$refs.inputElement.id === 'confirmPassword'){
+        this.$emit('judgeMatch');
       }
     }
   }
@@ -49,7 +57,7 @@ input {
   width: 250px;
 }
 
-.empty_prompt {
+.empty_prompt, .notMatch_prompt {
   color: red;
 }
 

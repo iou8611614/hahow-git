@@ -59,7 +59,7 @@ app.listen(_PORT, _IP, function() {
 //    1.3 save token to DB.
 //    1.4. return token.
 
-app.get("/Blog/Register", function(req, res) {
+app.post("/Blog/Register", function(req, res) {
   console.log(req);
 
   // 1.2 create token and get token.

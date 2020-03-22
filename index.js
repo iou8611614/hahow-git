@@ -6,6 +6,8 @@ const cors = require("cors");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
 const history = require("connect-history-api-fallback");
+const router = express.Router();
+const bcrypt = require('bcryptjs');
 const app = express();
 
 app.use(cors());
@@ -48,30 +50,39 @@ app.listen(_PORT, _IP, function() {
   console.log("server start IP: " + _IP + " , PORT: " + _PORT);
 });
 
+// Token Veriry =============================================
+// ==========================================================
+// ==========================================================
+// 1. judge user & pwd from DB, if user/pwd is correct then create token and return.
+//    1.1. mapping user & pwd from DB.
+//    1.2. create token.
+//    1.3 save token to DB.
+//    1.4. return token.
+
 app.get("/Blog/Register", function(req, res) {
-  res.send('got Register Request')
+  console.log(req);
+
+  // 1.2 create token and get token.
+  let token = createToken(req);
+  
+  // 1.3 return token
+  res.send({msg:'sign up',status:200, token});
   console.log("Request Register")
 });
 
-// 1. judge user & pwd from DB, if user/pwd is correct then create token and return.
-//    1.1. mapping user & pwd from DB.
-//    1.2. how to create token.
-//    1.3. return token.
 app.post("/Blog/Login", function(req, res) {
   console.log(req);
 
+  // 1.2 create token and get token.
+  let token = createToken(req);
 
-  // Token test
-  let user = {username: req.body.username};
-  let secret = "my_secret_key";
-  let token = jwt.sign(user, secret, {
-    'expiresIn': 60*60*2
-  });
-  res.send({status:200, token});
-  // Token test
-
+  // 1.3 return token
+  res.send({msg:'Login',status:200, token});
   console.log("Request Login");
 });
+// Token Veriry =============================================
+// ==========================================================
+// ==========================================================
 
 app.get("/Blog/Logout", function(req, res) {
   res.send('got Logout Request')
@@ -82,3 +93,25 @@ app.get("/Blog/:user", function(req, res) {
   res.send('Got Blog Request')
   console.log("Request Blog")
 });
+
+// 1. create token.
+// 2. return token.
+function createToken(req){
+  let user = {username: req.body.username};
+  let secret = "my_secret_key"; // salt string.
+  let token = jwt.sign(user, secret, {
+    'expiresIn': 60*60*2
+  });
+  return token;
+}
+
+// 1. save token to DB.
+function saveToken(token){
+  console.log('Save Token');
+}
+
+// 1. verify token.
+// 2. return true/false to judge is ok redirect to another page?
+function verifyToken(){
+  console.log('Verify Token');
+}

@@ -80,7 +80,7 @@ app.post("/Blog/Login", function(req, res) {
   res.send({msg:'Login',status:200, token});
   console.log("Request Login");
 });
-// Token Veriry =============================================
+// Token Verify =============================================
 // ==========================================================
 // ==========================================================
 
@@ -94,13 +94,32 @@ app.get("/Blog/:user", function(req, res) {
   console.log("Request Blog")
 });
 
+app.post("/Blog/getToken", function(req, res){
+  let token = createToken(req);
+  res.send({msg:'Get Token',status:200, token});
+})
+
+app.post("/Blog/Verify", function(req, res){
+  let secretKey = "my_secret_key";
+  jwt.verify(req.body.userToken, secretKey,function(err, mydata){
+    if(err){
+      res.send({tokenVerify: false})
+    }else{
+      console.log(mydata)
+      res.send({tokenVerify: true})
+    }
+  })
+})
+
+
 // 1. create token.
 // 2. return token.
 function createToken(req){
   let user = {username: req.body.username};
   let secret = "my_secret_key"; // salt string.
   let token = jwt.sign(user, secret, {
-    'expiresIn': 60*60*2
+    // expire time 10's
+    'expiresIn': 3
   });
   return token;
 }

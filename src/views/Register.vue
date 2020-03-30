@@ -118,21 +118,20 @@ export default {
             // 3. if has token then redirect to /Blog/Profile/:userID.
             // 4. if no token that mean username/password has error then show error message to user.
            
-          //  Token test
-            _console.log('This is token: ',res);
-            if(res.data.token) _console.log("your got token!")
-            else _console.log("you need token...")
-          //  Token test
-            
-            if (res.status) {
-              // Fake User 'Jason'
-              // modify redirect to /Blog/Profile/:userID
-              // load user info from server , then save in Vuex. Maybe???
-              self.$router.push({ name: "Profile",params:{userID:'Jason'} })
-                          .catch(err=>{
-                            if(err) _console.log(err)
-                          });
-            }
+           //  Token test
+           _console.log('This is token: ',res.data.token);
+           if(res.data.token){
+             localStorage.setItem('myToken',res.data.token);
+             _console.log("your got token!", localStorage.getItem('myToken'));
+             self.$router.push({ name: "Profile",params:{userID:'Jason'} })
+                         .catch(err=>{
+                           if(err) _console.log(err)
+                         });
+           }
+           else{
+             _console.log("you need token...");
+           }
+
           })
           .catch(err => {
             console.log(err);

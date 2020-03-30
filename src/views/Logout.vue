@@ -10,6 +10,7 @@ import axios from "axios";
 const _console = window.console;
 export default {
   mounted() {
+    localStorage.removeItem('myToken')
     setTimeout(()=>{
       this.$router.push({name:'Welcome'})
                   .catch(err=>{

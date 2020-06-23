@@ -6,6 +6,7 @@
       <i class="material-icons mb-3  custom-icon" style="font-size:60px"
         >fingerprint</i
       >
+      <span v-if="isError">{{ errorMsg }}</span>
       <FormItem
         ref="inputComponent"
         v-for="item in itemInfo"
@@ -37,6 +38,8 @@ const _console = window.console;
 export default {
   data() {
     return {
+      isError: false,
+      errorMsg: "",
       itemInfo: [
         {
           msg: "User Name",
@@ -81,17 +84,26 @@ export default {
             password
           })
           .then(res => {
-            _console.log(res.data);
-            if (res.data["loginStatus"]) {
-              vm.$store.commit("setToken", res.data.token);
-              vm.$store.commit("accountLogin");
-              vm.$router
-                .push({ name: "Profile", params: { userID: "Jason" } })
-                .catch(err => {
-                  if (err) _console.log(err);
-                });
-            } else {
-              _console.log("you need token...");
+            let isLogin = res.data.loginStatus;
+            let msgFromServer = res.data.errMsg;
+            if (isLogin) {
+              vm.isError = false;
+              vm.errorMsg = "";
+              _console.log(res.data);
+              if (res.data["loginStatus"]) {
+                vm.$store.commit("setToken", res.data.token);
+                vm.$store.commit("accountLogin");
+                vm.$router
+                  .push({ name: "Profile", params: { userID: "Jason" } })
+                  .catch(err => {
+                    if (err) _console.log(err);
+                  });
+              } else {
+                _console.log("you need token...");
+              }
+            }else{
+              vm.isError = true;
+              vm.errorMsg = msgFromServer;
             }
           })
           .catch(err => {
@@ -112,6 +124,10 @@ export default {
 </script>
 
 <style scoped>
+span {
+  color: rgba(235, 23, 23, 0.952);
+  font-weight: bold;
+}
 .login-box {
   max-width: 500px;
 }

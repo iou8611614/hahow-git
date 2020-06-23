@@ -63,29 +63,71 @@ app.post("/Blog/upload", upload.any(), function(req, res) {
 app.post("/Blog/Signup", function(req, res) {
   console.log(req.body);
   let connection = mysql.createConnection(DB_CONFIG);
+  let { username, email, birthday, password } = req.body;
   connection.connect(function(err) {
-    if (err) throw err;
-    console.log("DB Connected!");
-    var sql_instruction =
-      "INSERT INTO test (userName, eMail, birthday, password) VALUES ('Jason', 'iou8611614@gmail.com', '1989-11-22', '123456')";
+    if (err) {
+      console.error("db error reconnection: " + err.message);
+    }
 
-    var values = [
-      req.body["username"],
-      req.body["email"],
-      req.body["birthday"],
-      req.body["password"]
-    ];
-    console.log(values);
-    connection.query(sql_instruction, function(err, result) {
-      if (err) throw err;
-      console.log("Insert Data OK");
-    });
-    connection.end();
+    connection.query(
+      "SELECT userName FROM test WHERE userName = ?",
+      username,
+      function(err, result) {
+        if (err) {
+          console.error("DB error reconnection: ", err.message);
+          res.send({
+            loginStatus: false,
+            token: null,
+            signupStatus: false,
+            msg: "DB Error , Please Try Again Later..."
+          });
+          connection.end();
+        } else if (Object.keys(result).length != 0) {
+          console.error("用戶名稱已存在!");
+          res.send({
+            loginStatus: false,
+            token: null,
+            signupStatus: false,
+            msg: "用戶名稱已存在 !"
+          });
+          connection.end();
+        } else {
+          console.log(
+            "============================= Signup Start ============================="
+          );
+
+          bcrypt.hash(password, saltRounds).then(function(hashPassword) {
+            let formData = {
+              username,
+              email,
+              birthday,
+              password: hashPassword
+            };
+            console.log("Hash Password ===> ", password);
+            connection.query("INSERT INTO test SET ?", formData, function(
+              err,
+              result
+            ) {
+              if (err) {
+                console.error("Insert data to DB fail!");
+                throw err;
+              }
+              res.send({
+                loginStatus: true,
+                token: dispatchToken(username),
+                signupStatus: true,
+                msg: "Signup Successful!"
+              });
+              connection.end();
+              console.log(
+                "============================= Signup End ============================="
+              );
+            });
+          });
+        }
+      }
+    );
   });
-
-  let token = createToken(req);
-  res.send({ msg: "sign up", status: 200, token });
-  console.log("Request Register");
 });
 // ================================================================================================================================================
 // ================================================================================================================================================
@@ -193,6 +235,8 @@ function SQL_execute_mapping_account(req, res) {
             username,
             function(err, result, fields) {
               bcryptPassword = result[0].password;
+              console.log("user password ======> ", password);
+              console.log("bcrypt password ======> ", bcryptPassword);
               bcrypt.compare(password, bcryptPassword).then(function(isMatch) {
                 // console.log('Bcrypt Verify Result ==> ', isMatch);
                 if (isMatch) {

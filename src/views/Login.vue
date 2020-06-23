@@ -22,7 +22,7 @@
       <button
         type="button"
         class="btn btn-danger btn-block"
-        @click="registerHandler"
+        @click="signupHandler"
       >
         Sign up
       </button>
@@ -99,8 +99,8 @@ export default {
           });
       }
     },
-    registerHandler() {
-      this.$router.push({ name: "Register" }).catch(err => {
+    signupHandler() {
+      this.$router.push({ name: "Signup" }).catch(err => {
         if (err) _console.log(err);
       });
     }

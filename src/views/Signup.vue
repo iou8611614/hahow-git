@@ -4,6 +4,7 @@
       class="container-sm d-flex flex-column align-items-center rounded py-5 myform"
     >
       <i class="material-icons mb-3 custom-icon" style="font-size:60px">send</i>
+      <span v-if="isError">{{ errorMsg }}</span>
       <span class="matchMsg" v-show="isMatch"
         >Please double check password !</span
       >
@@ -14,7 +15,7 @@
         :key="item.name"
         @judgeMatch="matchHandler"
       />
-      <button type="button" class="btn btn-primary" @click="registerHandler">
+      <button type="button" class="btn btn-primary" @click="signupHandler">
         Submit
       </button>
     </form>
@@ -29,6 +30,8 @@ export default {
   data() {
     return {
       isMatch: false,
+      isError: false,
+      errorMsg: "",
       itemInfo: [
         {
           msg: "User Name",
@@ -93,8 +96,8 @@ export default {
         this.isMatch = false;
       }
     },
-    registerHandler() {
-      let self = this;
+    signupHandler() {
+      let vm = this;
       let username = this.$refs.inputComponent[0].$refs.inputElement.value;
       let email = this.$refs.inputComponent[1].$refs.inputElement.value;
       let birthday = this.$refs.inputComponent[2].$refs.inputElement.value;
@@ -115,23 +118,30 @@ export default {
             // dbc_password
           })
           .then(res => {
-            // 1. response token from server.
-            // 2. save token in localStorage.
-            // 3. if has token then redirect to /Blog/Profile/:userID.
-            // 4. if no token that mean username/password has error then show error message to user.
-
-            //  Token test
-            _console.log("This is token: ", res.data.token);
-            if (res.data.token) {
-              localStorage.setItem("myToken", res.data.token);
-              _console.log("your got token!", localStorage.getItem("myToken"));
-              self.$router
-                .push({ name: "Profile", params: { userID: "Jason" } })
-                .catch(err => {
-                  if (err) _console.log(err);
-                });
+            let isLogin = res.data.loginStatus;
+            // let isSignupSuccessful = res.data.signupStatus;
+            let msgFromServer = res.data.msg;
+            if (isLogin) {
+              vm.isError = false;
+              vm.errorMsg = "";
+              _console.log("This is token: ", res.data.token);
+              if (res.data.token) {
+                localStorage.setItem("myToken", res.data.token);
+                _console.log(
+                  "your got token!",
+                  localStorage.getItem("myToken")
+                );
+                vm.$router
+                  .push({ name: "Profile", params: { userID: "Jason" } })
+                  .catch(err => {
+                    if (err) _console.log(err);
+                  });
+              } else {
+                _console.log("you need token...");
+              }
             } else {
-              _console.log("you need token...");
+              vm.isError = true;
+              vm.errorMsg = msgFromServer;
             }
           })
           .catch(err => {
@@ -149,6 +159,10 @@ export default {
 </script>
 
 <style scoped>
+span {
+  color: rgba(235, 23, 23, 0.952);
+  font-weight: bold;
+}
 .matchMsg {
   color: red;
 }

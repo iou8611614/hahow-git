@@ -1,4 +1,5 @@
 import Vue from "vue";
+
 import Vuex from "vuex";
 
 Vue.use(Vuex);
@@ -7,8 +8,9 @@ export default new Vuex.Store({
   state: {
     queryString: "",
     user_token: "",
-    isLogin: false
+    isLogin: false,
   },
+
   mutations: {
     search: function(state, query) {
       state.queryString = query;
@@ -20,6 +22,7 @@ export default new Vuex.Store({
 
     setToken: function(state, token) {
       state.user_token = token;
+
       window.localStorage.setItem("userToken", token);
     },
 
@@ -35,7 +38,7 @@ export default new Vuex.Store({
       state.user_token = "";
 
       window.localStorage.clear();
-    }
+    },
   },
 
   getters: {
@@ -49,8 +52,10 @@ export default new Vuex.Store({
 
     getLoginStatus: function(state) {
       return state.isLogin;
-    }
+    },
   },
+
   actions: {},
-  modules: {}
+
+  modules: {},
 });

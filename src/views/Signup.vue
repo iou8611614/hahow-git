@@ -4,7 +4,9 @@
       class="container-sm d-flex flex-column align-items-center rounded py-5 myform"
     >
       <i class="material-icons mb-3 custom-icon" style="font-size:60px">send</i>
-      <span class="matchMsg" v-show="isMatch">Please double check password !</span>
+      <span class="matchMsg" v-show="isMatch"
+        >Please double check password !</span
+      >
       <FormItem
         ref="inputComponent"
         v-for="item in itemInfo"
@@ -33,9 +35,9 @@ export default {
           name: "userName",
           type: "text",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'account_box'
+          icon: {
+            _class: "material-icons",
+            _text: "account_box"
           }
         },
         {
@@ -43,9 +45,9 @@ export default {
           name: "userEmail",
           type: "email",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'email'
+          icon: {
+            _class: "material-icons",
+            _text: "email"
           }
         },
         {
@@ -53,9 +55,9 @@ export default {
           name: "birthday",
           type: "date",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'cake'
+          icon: {
+            _class: "material-icons",
+            _text: "cake"
           }
         },
         {
@@ -63,9 +65,9 @@ export default {
           name: "userPassword",
           type: "password",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'lock'
+          icon: {
+            _class: "material-icons",
+            _text: "lock"
           }
         },
         {
@@ -73,21 +75,21 @@ export default {
           name: "confirmPassword",
           type: "password",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'replay'
+          icon: {
+            _class: "material-icons",
+            _text: "replay"
           }
         }
       ]
     };
   },
   methods: {
-    matchHandler(){
+    matchHandler() {
       let password = this.$refs.inputComponent[3].$refs.inputElement.value;
       let dbc_password = this.$refs.inputComponent[4].$refs.inputElement.value;
-      if(password !== dbc_password){
+      if (password !== dbc_password) {
         this.isMatch = true;
-      }else{
+      } else {
         this.isMatch = false;
       }
     },
@@ -97,48 +99,46 @@ export default {
       let email = this.$refs.inputComponent[1].$refs.inputElement.value;
       let birthday = this.$refs.inputComponent[2].$refs.inputElement.value;
       let password = this.$refs.inputComponent[3].$refs.inputElement.value;
-      let dbc_password = this.$refs.inputComponent[4].$refs.inputElement.value;
+      // let dbc_password = this.$refs.inputComponent[4].$refs.inputElement.value;
 
       const isInputEmpty = inputComponent => {
         return inputComponent.$refs.inputElement.value.trim() !== "";
       };
-  
+
       if (this.$refs.inputComponent.every(isInputEmpty) && !this.isMatch) {
         axios
-          .post("http://127.0.0.1:7000/Blog/Register",{
+          .post("http://127.0.0.1:7000/Blog/Signup", {
             username,
             email,
             birthday,
-            password,
-            dbc_password
+            password
+            // dbc_password
           })
           .then(res => {
             // 1. response token from server.
             // 2. save token in localStorage.
             // 3. if has token then redirect to /Blog/Profile/:userID.
             // 4. if no token that mean username/password has error then show error message to user.
-           
-           //  Token test
-           _console.log('This is token: ',res.data.token);
-           if(res.data.token){
-             localStorage.setItem('myToken',res.data.token);
-             _console.log("your got token!", localStorage.getItem('myToken'));
-             self.$router.push({ name: "Profile",params:{userID:'Jason'} })
-                         .catch(err=>{
-                           if(err) _console.log(err)
-                         });
-           }
-           else{
-             _console.log("you need token...");
-           }
 
+            //  Token test
+            _console.log("This is token: ", res.data.token);
+            if (res.data.token) {
+              localStorage.setItem("myToken", res.data.token);
+              _console.log("your got token!", localStorage.getItem("myToken"));
+              self.$router
+                .push({ name: "Profile", params: { userID: "Jason" } })
+                .catch(err => {
+                  if (err) _console.log(err);
+                });
+            } else {
+              _console.log("you need token...");
+            }
           })
           .catch(err => {
             console.log(err);
           });
       } else {
         alert("請填寫完整資料");
-        
       }
     }
   },
@@ -163,7 +163,7 @@ export default {
 .custom-icon {
   animation-name: jumping;
   animation-duration: 2s;
-  animation-delay: .5s;
+  animation-delay: 0.5s;
   animation-fill-mode: backwards;
   animation-iteration-count: infinite;
 }

@@ -6,12 +6,12 @@
 </template>
 
 <script>
-  import NavbarRouter from './components/NavbarRouter.vue'
-  export default {
-    components: {
-      NavbarRouter,
-    }
+import NavbarRouter from "./components/NavbarRouter.vue";
+export default {
+  components: {
+    NavbarRouter
   }
+};
 </script>
 
 <style>
@@ -26,7 +26,6 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

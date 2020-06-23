@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import axios from "axios";
-const _console = window.console;
+// import axios from "axios";
+// const _console = window.console;
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,12 +29,12 @@ const routes = [
       },
       {
         // Register Page.
-        path: "Register",
-        name: "Register",
+        path: "Signup",
+        name: "Signup",
         meta: {
           requireAuth: false
         },
-        component: () => import("../views/Register.vue")
+        component: () => import("../views/Signup.vue")
       },
       {
         // User Profile Page.
@@ -57,7 +57,7 @@ const routes = [
           requireAuth: true
         },
         component: () => import("../views/Edit.vue")
-      },
+      }
       // {
       //   // Upload Page.
       //   path: "Upload",
@@ -68,8 +68,8 @@ const routes = [
   },
   {
     // passenger can see single member blog page.
-    path: '/Blog/:user/',
-    name: 'userblog',
+    path: "/Blog/:user/",
+    name: "userblog",
     params: true,
     meta: {
       requireAuth: true
@@ -89,37 +89,49 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(m=>m.meta.requireAuth)){
-    if(to.name=='Login'){
-      next()
-    }else{
-      if(localStorage.getItem('myToken')){
-        axios
-          .post("http://127.0.0.1:7000/Blog/Verify",{
-            userToken: localStorage.getItem('myToken')
-          })
-          .then((res)=>{
-            _console.log(res.data.tokenVerify)
-            if(res.data.tokenVerify){
-              next()
-            }else{
-              alert('Token Expire')
-              next('/Blog/Login')
-            }
-          })
-          .catch((err)=>{
-            _console.log(err)
-          })
-      }else{
-        next('/Blog/Login')
-      }
+  window.console.log(to.path);
+  if (
+    to.matched.some(record => {
+      window.console.log(record.meta.requireAuth);
+      return record.meta.requireAuth;
+    })
+  ) {
+    if (window.localStorage.getItem("userToken")) {
+      next();
+    } else {
+      next({ path: "/Login" });
     }
-  }else{
-    next()
+  } else {
+    next();
   }
+  // if (to.matched.some(m => m.meta.requireAuth)) {
+  //   if (to.name == "Login") {
+  //     next();
+  //   } else {
+  //     if (localStorage.getItem("myToken")) {
+  //       axios
+  //         .post("http://127.0.0.1:7000/Blog/Verify", {
+  //           userToken: localStorage.getItem("myToken")
+  //         })
+  //         .then(res => {
+  //           _console.log(res.data.tokenVerify);
+  //           if (res.data.tokenVerify) {
+  //             next();
+  //           } else {
+  //             alert("Token Expire");
+  //             next("/Blog/Login");
+  //           }
+  //         })
+  //         .catch(err => {
+  //           _console.log(err);
+  //         });
+  //     } else {
+  //       next("/Blog/Login");
+  //     }
+  //   }
+  // } else {
+  //   next();
+  // }
 });
-
-
-
 
 export default router;

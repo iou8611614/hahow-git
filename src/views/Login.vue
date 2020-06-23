@@ -3,17 +3,27 @@
     <form
       class="container-sm d-flex flex-column align-items-center rounded py-5 myform"
     >
-      <i class="material-icons mb-3  custom-icon" style="font-size:60px">fingerprint</i>
+      <i class="material-icons mb-3  custom-icon" style="font-size:60px"
+        >fingerprint</i
+      >
       <FormItem
         ref="inputComponent"
         v-for="item in itemInfo"
         :setItem="item"
         :key="item.name"
       />
-      <button type="button" class="btn btn-success btn-block" @click="loginHandler">
+      <button
+        type="button"
+        class="btn btn-success btn-block"
+        @click="loginHandler"
+      >
         LOGIN
       </button>
-      <button type="button" class="btn btn-danger btn-block" @click="registerHandler">
+      <button
+        type="button"
+        class="btn btn-danger btn-block"
+        @click="registerHandler"
+      >
         Sign up
       </button>
     </form>
@@ -33,9 +43,9 @@ export default {
           name: "userName",
           type: "text",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'account_box'
+          icon: {
+            _class: "material-icons",
+            _text: "account_box"
           }
         },
         {
@@ -43,9 +53,9 @@ export default {
           name: "userEmail",
           type: "password",
           classStyle: "form-control",
-          icon:{
-            _class: 'material-icons',
-            _text: 'lock'
+          icon: {
+            _class: "material-icons",
+            _text: "lock"
           }
         }
       ]
@@ -53,7 +63,7 @@ export default {
   },
   methods: {
     loginHandler() {
-      let self = this;
+      let vm = this;
       let username = this.$refs.inputComponent[0].$refs.inputElement.value;
       let password = this.$refs.inputComponent[1].$refs.inputElement.value;
       // define isInputEmpty method.
@@ -64,32 +74,25 @@ export default {
       if (!this.$refs.inputComponent.every(isInputEmpty)) {
         alert("請輸入帳號密碼");
       } else {
-        _console.log(username, password)
+        _console.log(username, password);
         axios
-          .post("http://127.0.0.1:7000/Blog/Login",{
+          .post("http://127.0.0.1:7000/Blog/Login", {
             username,
             password
           })
           .then(res => {
-            // 1. response token from server.
-            // 2. save token in localStorage.
-            // 3. if has token then redirect to /Blog/Profile/:userID.
-            // 4. if no token that mean username/password has error then show error message to user.
-           
-          //  Token test
-            _console.log('This is token: ',res.data.token);
-            if(res.data.token){
-              localStorage.setItem('myToken',res.data.token);
-              _console.log("your got token!", localStorage.getItem('myToken'));
-              self.$router.push({ name: "Profile",params:{userID:'Jason'} })
-                          .catch(err=>{
-                            if(err) _console.log(err)
-                          });
-            }
-            else{
+            _console.log(res.data);
+            if (res.data["loginStatus"]) {
+              vm.$store.commit("setToken", res.data.token);
+              vm.$store.commit("accountLogin");
+              vm.$router
+                .push({ name: "Profile", params: { userID: "Jason" } })
+                .catch(err => {
+                  if (err) _console.log(err);
+                });
+            } else {
               _console.log("you need token...");
             }
-
           })
           .catch(err => {
             console.log(err);
@@ -97,15 +100,14 @@ export default {
       }
     },
     registerHandler() {
-      this.$router.push({name:'Register'})
-                  .catch(err=>{
-                      if(err) _console.log(err)
-                  });
+      this.$router.push({ name: "Register" }).catch(err => {
+        if (err) _console.log(err);
+      });
     }
   },
   components: {
     FormItem
-  },
+  }
 };
 </script>
 
@@ -119,14 +121,14 @@ export default {
   overflow: hidden;
 }
 .btn-block {
-    display: block;
-    width: 30%!important;
-    padding: .5rem 1rem!important;
+  display: block;
+  width: 30% !important;
+  padding: 0.5rem 1rem !important;
 }
 .custom-icon {
   animation-name: jumping;
   animation-duration: 2s;
-  animation-delay: .5s;
+  animation-delay: 0.5s;
   animation-fill-mode: backwards;
   animation-iteration-count: infinite;
 }

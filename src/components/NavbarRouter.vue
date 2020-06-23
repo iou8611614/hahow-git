@@ -1,7 +1,8 @@
 <template>
   <!-- BootstrapVue can't using PUG syntax -->
   <!-- !!!!!!!!!
-     Router display need modify mapping syntax, Use RegExp()
+    1. router-link item display need modify mapping syntax, Use RegExp() <== stupid!!
+    2. use isLogin() to judge which router-link item will display.
   !!!!!!!!! -->
   <b-navbar toggleable="sm" type="dark" variant="info" class="nav-route" >
         <b-navbar-toggle target="nav-collapse" class="ml-auto"></b-navbar-toggle>

@@ -19,31 +19,31 @@ export default {
         if (err) _console.log(err);
       });
     },
-    // getToken() {
-    //   axios
-    //     .post("http://127.0.0.1:7000/Blog/getToken", {
-    //       username: "Jason Wang"
-    //     })
-    //     .then(res => {
-    //       this.$store.state.token = res.data.token;
-    //       _console.log(res);
-    //     })
-    //     .catch(err => {
-    //       _console.log(err);
-    //     });
-    // },
-    // tokenVerify() {
-    //   axios
-    //     .post("http://127.0.0.1:7000/Blog/Verify", {
-    //       userToken: this.$store.state.token
-    //     })
-    //     .then(res => {
-    //       _console.log(res.data.tokenVerify);
-    //     })
-    //     .catch(err => {
-    //       _console.log(err);
-    //     });
-    // }
+    getToken() {
+      axios
+        .post("http://127.0.0.1:7000/Blog/getToken", {
+          username: "Jason Wang"
+        })
+        .then(res => {
+          this.$store.state.token = res.data.token;
+          _console.log(res);
+        })
+        .catch(err => {
+          _console.log(err);
+        });
+    },
+    tokenVerify() {
+      axios
+        .post("http://127.0.0.1:7000/Blog/Verify", {
+          userToken: this.$store.state.token
+        })
+        .then(res => {
+          _console.log(res.data.tokenVerify);
+        })
+        .catch(err => {
+          _console.log(err);
+        });
+    }
   }
 };
 </script>

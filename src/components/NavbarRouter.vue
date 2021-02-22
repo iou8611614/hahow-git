@@ -70,9 +70,9 @@
         <!-- <b-nav-item v-show="this.$route.path!=='/Blog/:user'">
               <router-link class="route-style" class-active="active" :to="{name:'blogUser'}">Blog</router-link>
             </b-nav-item> -->
-        <!-- <b-nav-item v-show="this.$route.path!=='/Blog/Upload'">
-              <router-link class="route-style" class-active="active" :to="{name:'Upload'}">Upload</router-link>
-            </b-nav-item> -->
+        <b-nav-item>
+          <router-link class="route-style" class-active="active" :to="{name:'Upload'}">Upload</router-link>
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>

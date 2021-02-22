@@ -19,7 +19,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.resolve(__dirname, "./dist")));
 
-var upload = multer({ dest: "uploadFile/" });
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, __dirname+"/uploadFile/");
+  },
+  filename: function(req, file, cb) {
+    console.log(file)
+    cb(null, file.fieldname);
+  }
+});
+var upload = multer({ storage: storage });
+
+
 const _LOCAL = "127.0.0.1";
 const _IP = _LOCAL || "192.168.1.101";
 const _PORT = "7000";
@@ -41,21 +52,8 @@ app.get("/Blog", function(req, res) {
 });
 
 app.post("/Blog/upload", upload.any(), function(req, res) {
-  console.log(req.files[0]);
-  var newFile = "./uploadFile/" + req.files[0].originalname;
-  fs.readFile(req.files[0].path, function(err, data) {
-    fs.writeFile(newFile, data, function(err) {
-      if (err) {
-        console.log("錯誤：", err);
-      } else {
-        let response = {
-          message: "上傳成功",
-          filename: req.files[0].originalname
-        };
-        res.json(response);
-      }
-    });
-  });
+  console.log("Upload File");
+  // res.send("done");
 });
 
 // ================================================================================================================================================

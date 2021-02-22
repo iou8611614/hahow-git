@@ -24,7 +24,6 @@ var storage = multer.diskStorage({
     cb(null, __dirname+"/uploadFile/");
   },
   filename: function(req, file, cb) {
-    console.log(file)
     cb(null, file.fieldname);
   }
 });
@@ -53,7 +52,7 @@ app.get("/Blog", function(req, res) {
 
 app.post("/Blog/upload", upload.any(), function(req, res) {
   console.log("Upload File");
-  // res.send("done");
+  res.send("upload done");
 });
 
 // ================================================================================================================================================
